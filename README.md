@@ -10,7 +10,7 @@ It uses **Prefect** to create and monitor two cloud-native pipelines:
 
 1.  **Clone the repo and set up the environment:**
     ```bash
-    git clone <your-github-repo-url>
+    git clone https://github.com/nrbandi/apiproject1.git
     cd apiproject1
     python3 -m venv apienv
     source apienv/bin/activate
