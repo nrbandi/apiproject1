@@ -1,6 +1,8 @@
+import os
 import pandas as pd
 import requests
 import json
+from dotenv import load_dotenv
 from prefect import flow, task
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
@@ -8,13 +10,14 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 
+load_dotenv()
+
 @task
 def send_discord_notification(metrics_log: str):
     """Sends a notification to a Discord webhook."""
-    webhook_url = "https://discord.com/api/webhooks/1430192759595335771/OZkP4g1aicCD5twjyLZmIcROfqa-tfBZ-eLe3TQ_Cf-KgO6YuGFGSXE9WlwWg1AeRLZb"
-
-    if not webhook_url.startswith("http"):
-        print("Discord webhook URL not set, skipping notification.")
+    webhook_url = os.getenv("DISCORD_WEBHOOK_URL")
+    if not webhook_url: # Check if it loaded correctly
+        print("!!! ERROR: DISCORD_WEBHOOK_URL not found in .env file.")
         return
 
     data = {
@@ -93,14 +96,6 @@ def evaluate_model(model, X_test, y_test):
     f1 = f1_score(y_test, y_pred)
 
     # This is the logging step for Sub-objective 2.4
-    # Prefect automatically captures all 'print' statements as logs.
-    print(f"--- {model_name} Metrics ---")
-    print(f"Accuracy: {accuracy:.4f}")
-    print(f"Precision: {precision:.4f}")
-    print(f"Recall: {recall:.4f}")
-    print(f"F1 Score: {f1:.4f}")
-    print("---------------------------------")
-
     # Create a log string
     log_message = (
         f"--- {model_name} Metrics ---\n"
@@ -115,15 +110,15 @@ def evaluate_model(model, X_test, y_test):
 
 # --- Define Your ML Flow ---
 @flow(name="ML Training and Evaluation Pipeline")
-def ml_pipeline_flow(test_size: float = 0.3):
+def ml_pipeline_flow(test_size: float = 0.3, file_path: str = 'creditcard.csv'):
     """
     The main flow to train and evaluate two ML models.
-    'test_size' is a parameter that can be set from the UI.
+    'test_size' and 'file_path' are parameters that can be set from the UI.
     """
-    print(f"Starting ML pipeline with test_size = {test_size}")
+    print(f"Starting ML pipeline with test_size = {test_size} and file_path = {file_path}")
 
     # --- Algorithm 1: Logistic Regression ---
-    df = load_and_preprocess_data(file_path='creditcard.csv')
+    df = load_and_preprocess_data(file_path=file_path)
     X_train, X_test, y_train, y_test = split_data(df, test_size)
 
     lr_model = LogisticRegression(random_state=42)

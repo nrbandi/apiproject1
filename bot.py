@@ -32,9 +32,6 @@ async def on_ready():
 async def on_message(message):
     """Fires on every message the bot can see."""
     
-    # This is a debug print, you can leave it
-    print(f"Bot saw a message from {message.author}: {message.content}")
-
     # Prevent the bot from replying to itself
     if message.author == client.user:
         return
