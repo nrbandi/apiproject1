@@ -38,20 +38,13 @@ def send_discord_notification(metrics_log: str):
     except Exception as e:
         print(f"Error sending Discord notification: {e}")
 
-# --- Main Task 1: Load and Preprocess ---
+# --- Main Task 1: Load Preprocess Data---
 @task
-def load_and_preprocess_data(file_path: str):
-    """Loads and preprocesses the credit card data."""
-    print(f"Loading and preprocessing data from {file_path}...")
+def load_preprocessed_data(file_path: str): # Renamed for clarity
+    """Loads the preprocessed CSV file."""
+    print(f"Loading preprocessed data from {file_path}...")
     df = pd.read_csv(file_path)
-
-    # Scale Time and Amount
-    scaler = StandardScaler()
-    df['scaled_Amount'] = scaler.fit_transform(df['Amount'].values.reshape(-1, 1))
-    df['scaled_Time'] = scaler.fit_transform(df['Time'].values.reshape(-1, 1))
-    df = df.drop(['Time', 'Amount'], axis=1)
-
-    print("Data loaded and preprocessed.")
+    print(f"Loaded {len(df)} rows of preprocessed data.")
     return df
 
 # --- Task 2: Split Data ---
@@ -110,7 +103,7 @@ def evaluate_model(model, X_test, y_test):
 
 # --- Define Your ML Flow ---
 @flow(name="ML Training and Evaluation Pipeline")
-def ml_pipeline_flow(test_size: float = 0.3, file_path: str = 'creditcard.csv'):
+def ml_pipeline_flow(test_size: float = 0.3, file_path: str = 'preprocessed_creditcard.csv'):
     """
     The main flow to train and evaluate two ML models.
     'test_size' and 'file_path' are parameters that can be set from the UI.
@@ -118,7 +111,7 @@ def ml_pipeline_flow(test_size: float = 0.3, file_path: str = 'creditcard.csv'):
     print(f"Starting ML pipeline with test_size = {test_size} and file_path = {file_path}")
 
     # --- Algorithm 1: Logistic Regression ---
-    df = load_and_preprocess_data(file_path=file_path)
+    df = load_preprocessed_data(file_path=file_path)
     X_train, X_test, y_train, y_test = split_data(df, test_size)
 
     lr_model = LogisticRegression(random_state=42)
