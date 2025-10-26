@@ -52,11 +52,13 @@ Follow these steps to set up the project locally.
 
 6.  **Create `.env` File for Secrets:**
     * Create a file named `.env` in the root of the `apiproject1` directory.
-    * Add your Discord Bot Token to this file. **This file is ignored by Git and should NOT be committed.**
+    * Add your **Discord Bot Token** and (optionally) your **Discord Webhook URL** (for notifications) to this file. **This file is ignored by Git and should NOT be committed.**
         ```dotenv
         # Contents of .env file
         DISCORD_BOT_TOKEN="YOUR_DISCORD_BOT_TOKEN_HERE"
+        DISCORD_WEBHOOK_URL="YOUR_DISCORD_WEBHOOK_URL_HERE" # Optional: For ML pipeline notifications
         ```
+    * If you don't add the `DISCORD_WEBHOOK_URL`, the ML pipeline will still run, but it will skip sending the completion notification.
 
 7.  **Set Up Discord Bot (Optional - for API Trigger):**
     * Go to the [Discord Developer Portal](https://discord.com/developers/applications/).
