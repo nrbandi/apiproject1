@@ -1,3 +1,6 @@
+aiohappyeyeballs==2.6.1
+aiohttp==3.13.1
+aiosignal==1.4.0
 aiosqlite==0.21.0
 alembic==1.17.0
 annotated-types==0.7.0
@@ -30,6 +33,7 @@ dateparser==1.2.2
 debugpy==1.8.17
 decorator==5.2.1
 defusedxml==0.7.1
+discord.py==2.6.4
 docker==7.1.0
 exceptiongroup==1.3.0
 executing==2.2.1
@@ -37,6 +41,7 @@ fastapi==0.119.1
 fastjsonschema==2.21.2
 fonttools==4.60.1
 fqdn==1.5.1
+frozenlist==1.8.0
 fsspec==2025.9.0
 graphviz==0.21
 greenlet==3.2.4
@@ -83,6 +88,7 @@ matplotlib==3.10.7
 matplotlib-inline==0.1.7
 mdurl==0.1.2
 mistune==3.1.4
+multidict==6.7.0
 nbclient==0.10.2
 nbconvert==7.16.6
 nbformat==5.10.4
@@ -106,6 +112,7 @@ pluggy==1.6.0
 prefect==3.4.24
 prometheus_client==0.23.1
 prompt_toolkit==3.0.52
+propcache==0.4.1
 protobuf==6.33.0
 psutil==7.1.1
 ptyprocess==0.7.0
@@ -170,4 +177,5 @@ webcolors==24.11.1
 webencodings==0.5.1
 websocket-client==1.9.0
 websockets==15.0.1
+yarl==1.22.0
 zipp==3.23.0
